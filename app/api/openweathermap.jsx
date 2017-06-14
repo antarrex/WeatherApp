@@ -11,7 +11,11 @@ module.exports = {
       if (res.data.cod && res.data.message) {
         throw new Error(res.data.message);
       } else {
-        return res.data.main.temp;
+        var data = {
+          temp: res.data.main.temp,
+          icon: res.data.weather[0].icon
+        }
+        return data;
       }
     }, function(res) {
       throw new Error(res.data.message);
