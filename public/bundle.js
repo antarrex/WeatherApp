@@ -106,10 +106,9 @@
 	var Main = __webpack_require__(223);
 	var Weather = __webpack_require__(225);
 	var About = __webpack_require__(255);
-	var Examples = __webpack_require__(256);
 
-	__webpack_require__(257);
-	__webpack_require__(261);
+	__webpack_require__(256);
+	__webpack_require__(260);
 	$(document).foundation();
 
 	ReactDOM.render(React.createElement(
@@ -119,7 +118,6 @@
 	    Route,
 	    { path: '/', component: Main },
 	    React.createElement(Route, { path: 'about', component: About }),
-	    React.createElement(Route, { path: 'examples', component: Examples }),
 	    React.createElement(IndexRoute, { component: Weather })
 	  )
 	), document.getElementById('app'));
@@ -25340,7 +25338,53 @@
 	            'Today weather for ',
 	            data.city.name
 	          ),
-	          React.createElement(WeatherMessage, { temp: data.list[0].temp.day, icon: data.list[0].weather[0].icon })
+	          React.createElement(WeatherMessage, { temp: data.list[0].temp.day, icon: data.list[0].weather[0].icon }),
+	          React.createElement(
+	            'table',
+	            { className: 'stack' },
+	            React.createElement(
+	              'tr',
+	              null,
+	              React.createElement(
+	                'td',
+	                null,
+	                'Pressure:'
+	              ),
+	              React.createElement(
+	                'td',
+	                null,
+	                data.list[0].pressure
+	              )
+	            ),
+	            React.createElement(
+	              'tr',
+	              null,
+	              React.createElement(
+	                'td',
+	                null,
+	                'Humidity:'
+	              ),
+	              React.createElement(
+	                'td',
+	                null,
+	                data.list[0].humidity
+	              )
+	            ),
+	            React.createElement(
+	              'tr',
+	              null,
+	              React.createElement(
+	                'td',
+	                null,
+	                'Wind speed:'
+	              ),
+	              React.createElement(
+	                'td',
+	                null,
+	                data.list[0].speed
+	              )
+	            )
+	          )
 	        );
 	      }
 	    }
@@ -26970,31 +27014,13 @@
 /* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	var React = __webpack_require__(8);
-
-	var Examples = function Examples(props) {
-	  return React.createElement(
-	    'h3',
-	    null,
-	    'Examples Component'
-	  );
-	};
-
-	module.exports = Examples;
-
-/***/ }),
-/* 257 */
-/***/ (function(module, exports, __webpack_require__) {
-
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(258);
+	var content = __webpack_require__(257);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(260)(content, {});
+	var update = __webpack_require__(259)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -27011,10 +27037,10 @@
 	}
 
 /***/ }),
-/* 258 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(259)();
+	exports = module.exports = __webpack_require__(258)();
 	// imports
 
 
@@ -27025,7 +27051,7 @@
 
 
 /***/ }),
-/* 259 */
+/* 258 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -27080,7 +27106,7 @@
 	};
 
 /***/ }),
-/* 260 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -27334,16 +27360,16 @@
 
 
 /***/ }),
-/* 261 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(262);
+	var content = __webpack_require__(261);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(260)(content, {});
+	var update = __webpack_require__(259)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -27360,10 +27386,10 @@
 	}
 
 /***/ }),
-/* 262 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(259)();
+	exports = module.exports = __webpack_require__(258)();
 	// imports
 
 
