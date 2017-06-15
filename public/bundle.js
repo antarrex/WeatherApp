@@ -25300,34 +25300,23 @@
 	      isLoading: false
 	    };
 	  },
-	  handleSearch: function handleSearch(city) {
+	  handleSearch: function handleSearch(city, forecast7) {
 	    var _this = this;
 
 	    this.setState({ isLoading: true });
-
-	    openWeatherMap.getTemp(city).then(function (_ref) {
-	      var temp = _ref.temp,
-	          icon = _ref.icon;
-
+	    openWeatherMap.getForecast(city).then(function (data) {
 	      _this.setState({
-	        city: city,
-	        temp: temp,
-	        icon: icon,
-	        isLoading: false
+	        isLoading: false,
+	        isForecast7: forecast7,
+	        data: data
 	      });
-	    }, function (errorMessage) {
-	      _this.setState({ isLoading: false });
-	      alert(errorMessage);
 	    });
 	  },
 	  render: function render() {
-	    console.log(this.state);
 	    var _state = this.state,
-	        city = _state.city,
-	        temp = _state.temp,
-	        icon = _state.icon,
-	        isLoading = _state.isLoading;
-
+	        isLoading = _state.isLoading,
+	        data = _state.data,
+	        isForecast7 = _state.isForecast7;
 
 	    function renderMessage() {
 	      if (isLoading) {
@@ -25336,11 +25325,34 @@
 	          { className: 'text-center' },
 	          'Loading...'
 	        );
-	      } else if (city && temp) {
-	        return React.createElement(WeatherMessage, { city: city, temp: temp, icon: icon });
+	      } else if (data && isForecast7) {
+	        return React.createElement(
+	          'div',
+	          { className: 'weather-forecast' },
+	          React.createElement(
+	            'h3',
+	            { className: 'text-center' },
+	            '7 day forecast for ',
+	            data.city.name
+	          ),
+	          data.list.map(function (item, id) {
+	            return React.createElement(WeatherMessage, { key: id, temp: item.temp.day, icon: item.weather[0].icon });
+	          })
+	        );
+	      } else if (data) {
+	        return React.createElement(
+	          'div',
+	          { className: 'weather-forecast' },
+	          React.createElement(
+	            'h3',
+	            { className: 'text-center' },
+	            'Today weather for ',
+	            data.city.name
+	          ),
+	          React.createElement(WeatherMessage, { temp: data.list[0].temp.day, icon: data.list[0].weather[0].icon })
+	        );
 	      }
 	    }
-
 	    return React.createElement(
 	      'div',
 	      null,
@@ -25361,35 +25373,46 @@
 /* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var React = __webpack_require__(8);
 
 	var WeatherForm = React.createClass({
-	  displayName: 'WeatherForm',
+	  displayName: "WeatherForm",
 
 	  onFormSubmit: function onFormSubmit(e) {
 	    e.preventDefault();
 
 	    var city = this.refs.city.value;
+	    var forecast7 = this.refs.forecastType.checked;
 
 	    if (city.length > 0) {
-	      this.refs.city.value = '';
-	      this.props.onSearch(city);
+	      this.props.onSearch(city, forecast7);
 	    }
 	  },
 	  render: function render() {
 	    return React.createElement(
-	      'div',
+	      "div",
 	      null,
 	      React.createElement(
-	        'form',
+	        "form",
 	        { onSubmit: this.onFormSubmit },
-	        React.createElement('input', { type: 'text', ref: 'city', placeholder: 'Enter city name' }),
+	        React.createElement("input", { type: "text", ref: "city", placeholder: "Enter city name" }),
 	        React.createElement(
-	          'button',
-	          { className: 'button expanded hollow' },
-	          'Get Weather'
+	          "div",
+	          { className: "switch" },
+	          React.createElement("input", { className: "switch-input", id: "forecastType", type: "checkbox", ref: "forecastType" }),
+	          React.createElement("label", { className: "switch-paddle", htmlFor: "forecastType" })
+	        ),
+	        React.createElement(
+	          "span",
+	          { className: "forecast-switcher-text" },
+	          "Get 7 day forecast"
+	        ),
+	        React.createElement(
+	          "button",
+	          { className: "button expanded hollow" },
+	          "Get Weather"
 	        )
 	      )
 	    );
@@ -25407,21 +25430,13 @@
 	var React = __webpack_require__(8);
 
 	var WeatherMessage = function WeatherMessage(_ref) {
-	  var city = _ref.city,
-	      temp = _ref.temp,
+	  var temp = _ref.temp,
 	      icon = _ref.icon;
 
 	  var src = "http://openweathermap.org/img/w/" + icon + ".png";
 	  return React.createElement(
 	    "div",
 	    { className: "text-center" },
-	    React.createElement(
-	      "div",
-	      null,
-	      "Weather for ",
-	      city,
-	      ":"
-	    ),
 	    React.createElement(
 	      "div",
 	      null,
@@ -25442,23 +25457,17 @@
 
 	var axios = __webpack_require__(229);
 
-	var OPEN_WEATHER_MAP_URL = 'http://api.openweathermap.org/data/2.5/weather?appid=8ebb8f2092869f41f92acca1ddc6ee6b&units=metric';
+	var OPEN_WEATHER_MAP_URL = 'http://api.openweathermap.org/data/2.5/forecast/daily?appid=8ebb8f2092869f41f92acca1ddc6ee6b&units=metric';
 
 	module.exports = {
-	  getTemp: function getTemp(city) {
+
+	  getForecast: function getForecast(city) {
 	    var encodedCity = encodeURIComponent(city);
 	    var requestUrl = OPEN_WEATHER_MAP_URL + '&q=' + encodedCity;
 
 	    return axios.get(requestUrl).then(function (res) {
-	      if (res.data.cod && res.data.message) {
-	        throw new Error(res.data.message);
-	      } else {
-	        var data = {
-	          temp: res.data.main.temp,
-	          icon: res.data.weather[0].icon
-	        };
-	        return data;
-	      }
+	      var data = res.data;
+	      return data;
 	    }, function (res) {
 	      throw new Error(res.data.message);
 	    });
@@ -27329,8 +27338,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js!./app.scss", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js!./app.scss");
+			module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/index.js!./app.scss", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/index.js!./app.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -27348,7 +27357,7 @@
 
 
 	// module
-	exports.push([module.id, ".main-container {\n  margin-top: 3rem;\n}\n", ""]);
+	exports.push([module.id, ".main-container {\n  margin-top: 3rem; }\n\n.forecast-switcher-text {\n  color: #333;\n  font-size: 16px;\n  display: inline-block;\n  height: 32px;\n  line-height: 32px; }\n\n.switch {\n  float: left;\n  margin-right: 1rem; }\n", ""]);
 
 	// exports
 

@@ -5,10 +5,10 @@ var WeatherForm = React.createClass({
     e.preventDefault();
 
     var city = this.refs.city.value;
+    var forecast7 = this.refs.forecastType.checked;
 
     if (city.length > 0) {
-      this.refs.city.value = '';
-      this.props.onSearch(city);
+      this.props.onSearch(city, forecast7);
     }
 
   },
@@ -17,6 +17,11 @@ var WeatherForm = React.createClass({
       <div>
         <form onSubmit={this.onFormSubmit}>
           <input type="text" ref="city" placeholder="Enter city name"/>
+          <div className="switch">
+            <input className="switch-input" id="forecastType" type="checkbox" ref="forecastType"/>
+            <label className="switch-paddle" htmlFor="forecastType"></label>
+          </div>
+          <span className="forecast-switcher-text">Get 7 day forecast</span>
           <button className="button expanded hollow">Get Weather</button>
         </form>
       </div>

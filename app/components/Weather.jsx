@@ -9,33 +9,37 @@ var Weather = React.createClass({
       isLoading: false
     }
   },
-  handleSearch: function(city) {
+  handleSearch: function(city, forecast7) {
     this.setState({isLoading: true});
-
-    openWeatherMap.getTemp(city).then(({temp, icon}) => {
+    openWeatherMap.getForecast(city).then((data) => {
       this.setState({
-        city: city,
-        temp: temp,
-        icon: icon,
-        isLoading: false
+        isLoading: false,
+        isForecast7: forecast7,
+        data: data
       });
-    }, (errorMessage) => {
-      this.setState({isLoading: false});
-      alert(errorMessage);
     });
   },
   render: function() {
-    console.log(this.state);
-    var {city, temp, icon, isLoading} = this.state;
-
+    var {isLoading, data, isForecast7} = this.state;
     function renderMessage() {
       if (isLoading) {
         return <div className="text-center">Loading...</div>
-      } else if (city && temp) {
-        return <WeatherMessage city={city} temp={temp} icon={icon}/>
+      } else if(data && isForecast7) {
+        return (
+          <div className="weather-forecast">
+            <h3 className="text-center">7 day forecast for {data.city.name}</h3>
+            {data.list.map((item, id) => <WeatherMessage key={id} temp={item.temp.day} icon={item.weather[0].icon}/>) }
+          </div>
+        );
+      } else if(data) {
+        return (
+          <div className="weather-forecast">
+            <h3 className="text-center">Today weather for {data.city.name}</h3>
+            <WeatherMessage temp={data.list[0].temp.day} icon={data.list[0].weather[0].icon}/>
+          </div>
+        );
       }
     }
-
     return (
       <div>
         <h1 className="text-center">Get Weather</h1>
