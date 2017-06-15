@@ -32,11 +32,19 @@ var Weather = React.createClass({
           </div>
         );
       } else if(data) {
+
         return (
           <div className="weather-forecast">
             <h3 className="text-center">Today weather for {data.city.name}</h3>
-            <WeatherMessage temp={data.list[0].temp.day} icon={data.list[0].weather[0].icon}/>
             <table className="stack">
+              <tr>
+                <td>Weather:</td>
+                <td><img src={`http://openweathermap.org/img/w/${data.list[0].weather[0].icon}.png`}/></td>
+              </tr>
+              <tr>
+                <td>Temperature:</td>
+                <td>{data.list[0].temp.min} - {data.list[0].temp.max} &#8451;</td>
+              </tr>
               <tr>
                 <td>Pressure:</td>
                 <td>{data.list[0].pressure}</td>

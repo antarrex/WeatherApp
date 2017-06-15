@@ -25329,6 +25329,7 @@
 	          })
 	        );
 	      } else if (data) {
+
 	        return React.createElement(
 	          'div',
 	          { className: 'weather-forecast' },
@@ -25338,10 +25339,40 @@
 	            'Today weather for ',
 	            data.city.name
 	          ),
-	          React.createElement(WeatherMessage, { temp: data.list[0].temp.day, icon: data.list[0].weather[0].icon }),
 	          React.createElement(
 	            'table',
 	            { className: 'stack' },
+	            React.createElement(
+	              'tr',
+	              null,
+	              React.createElement(
+	                'td',
+	                null,
+	                'Weather:'
+	              ),
+	              React.createElement(
+	                'td',
+	                null,
+	                React.createElement('img', { src: 'http://openweathermap.org/img/w/' + data.list[0].weather[0].icon + '.png' })
+	              )
+	            ),
+	            React.createElement(
+	              'tr',
+	              null,
+	              React.createElement(
+	                'td',
+	                null,
+	                'Temperature:'
+	              ),
+	              React.createElement(
+	                'td',
+	                null,
+	                data.list[0].temp.min,
+	                ' - ',
+	                data.list[0].temp.max,
+	                ' \u2103'
+	              )
+	            ),
 	            React.createElement(
 	              'tr',
 	              null,
