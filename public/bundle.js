@@ -27031,7 +27031,7 @@
 	      "Developed by ",
 	      React.createElement(
 	        "a",
-	        { tarhet: "_blank", href: "http://maxim-larkin.ru" },
+	        { target: "_blank", href: "http://maxim-larkin.ru" },
 	        "Maxim Larkin"
 	      ),
 	      "."
