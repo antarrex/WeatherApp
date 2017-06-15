@@ -25264,15 +25264,6 @@
 	            { to: '/about', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
 	            'About'
 	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            Link,
-	            { to: '/examples', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
-	            'Examples'
-	          )
 	        )
 	      )
 	    )
@@ -26941,15 +26932,35 @@
 /* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var React = __webpack_require__(8);
 
 	var About = function About(props) {
 	  return React.createElement(
-	    'h3',
+	    "div",
 	    null,
-	    'About Component'
+	    React.createElement(
+	      "h3",
+	      { className: "text-center" },
+	      "About"
+	    ),
+	    React.createElement(
+	      "p",
+	      { className: "lead" },
+	      "Single page weather app powered by ReactJS."
+	    ),
+	    React.createElement(
+	      "small",
+	      { className: "float-right" },
+	      "Developed by ",
+	      React.createElement(
+	        "a",
+	        { tarhet: "_blank", href: "http://maxim-larkin.ru" },
+	        "Maxim Larkin"
+	      ),
+	      "."
+	    )
 	  );
 	};
 
