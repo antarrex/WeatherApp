@@ -5,7 +5,7 @@ var Main = require('Main');
 var Weather = require('Weather');
 var About = require('About');
 
-require('style!css!foundation-sites/dist/foundation.min.css');
+require('style!css!foundation-sites/dist/css/foundation.min.css');
 require('style!css!sass!appStyles');
 $(document).foundation();
 
